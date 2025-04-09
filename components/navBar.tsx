@@ -1,7 +1,7 @@
 import { Menu } from "lucide-react";
 import Logo from "@/components/ui/logo"
-
 import Theme from "./themeSwitch";
+import { signOutAction } from "@/app/actions";
 
 const Navbar = () => {
     return (
@@ -12,14 +12,12 @@ const Navbar = () => {
                         <Logo/>
                         <h1 className="font-bold">Ascend</h1>
                     </a>
-                    <li className="lg:flex gap-3 hidden items-center">
-                        <ul><a href="/">Home</a></ul>
-                        <ul><a href="/sign-in">Sign in</a></ul>
-                        <ul><a href="/sign-up">Sign up in</a></ul>
-                    </li>
-                    <div className="flex items-center gap-2 lg:hidden">
+                    <div className="flex items-center gap-2">
                         <Theme/>
-                        <button className="hover:bg-red-300 hover:bg-opacity-10 p-2 rounded"><Menu strokeWidth={1} size={18}/></button>
+                        <button className="lg:hidden hover:bg-red-300 hover:bg-opacity-10 p-2 rounded"><Menu strokeWidth={1} size={18}/></button>
+                        <form action={signOutAction}>
+                            <button type="submit">Log Off</button>
+                        </form>
                     </div>
                 </div>
             </div>
