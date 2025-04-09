@@ -3,10 +3,10 @@ import Phone from "@/components/img/Shot.png"
 
 export default function Header() {
   return (
-    <div className="flex justify-between items-center">
+    <div className="flex items-center justify-center">
       <div className='flex flex-col gap-6 max-w-[300px]'>
         <div className='flex flex-col gap-3'>
-          <h1 className='text-5xl font-bold'>Level Up — Every Damn Day.</h1>
+          <h1 className='text-5xl font-bold'>Level Up — Every Damn Day</h1>
           <p className='opacity-80 font-light'>Analyze your habits. Compete with friends. Meet the new you.</p>
         </div>
         <div className='flex flex-col w-auto gap-1'>

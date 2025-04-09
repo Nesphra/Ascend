@@ -1,11 +1,15 @@
+'use client'
 import { Menu } from "lucide-react";
 import Logo from "@/components/ui/logo"
 import Theme from "./themeSwitch";
 import { signOutAction } from "@/app/actions";
+import { useAuth } from "@/app/Hooks/authProvider";
 
 const Navbar = () => {
+    const { user } = useAuth();
+
     return (
-        <nav className="w-full flex justify-center border-b border-b-foreground/5">
+        <nav className="w-full flex justify-center border-b border-b-foreground/5 z-10">
             <div className="max-w-6xl lg:w-4/5 w-full flex justify-center h-[75px]">
                 <div className="flex justify-between w-full items-cente m-5">
                     <a href="/" className="flex items-center">

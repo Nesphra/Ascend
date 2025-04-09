@@ -2,7 +2,10 @@ import NavBar from "@/components/navBar"
 
 import { Inria_Sans } from "next/font/google";
 import { ThemeProvider } from "next-themes";
+import { AuthProvider } from "./Hooks/authProvider";
+
 import "@/app/globals.css";
+import "@radix-ui/themes/styles.css";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -34,10 +37,10 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <main className="flex flex-col items-center">
-            <div className="flex-1 w-full flex flex-col items-center">
+            <div className="w-full flex flex-col items-center h-screen">
               <NavBar></NavBar>
-              <div className="flex p-[50px] pb-[100px] justify-center h-screen absolute items-center">
-                {children}
+              <div className="flex justify-center items-center absolute h-screen">
+                <AuthProvider>{children}</AuthProvider>
               </div>
             </div>
           </main>

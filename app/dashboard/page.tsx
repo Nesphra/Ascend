@@ -1,16 +1,9 @@
-import { createClient } from "@/utils/supabase/server";
-import { redirect } from "next/navigation";
+'use client';
 
-export default async function dashboardPage() {
-  const supabase = await createClient();
+import { useAuth } from "@/app/Hooks/authProvider";
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return redirect("/sign-in");
-  }
+export default function DashboardPage() {
+  const { user } = useAuth();
 
   return (
     <div className="flex-1 w-full flex flex-col gap-12">
