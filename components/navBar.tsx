@@ -9,7 +9,7 @@ import { signOutAction } from "@/app/actions";
 import { useAuth } from "@/app/Hooks/authProvider";
 
 import { useState } from "react";
-import { Button, Text, HoverCard, Separator } from "@radix-ui/themes";
+import { Button, Text, HoverCard, Separator, Avatar } from "@radix-ui/themes";
 import { useThemeContext } from "@radix-ui/themes";
 
 
@@ -49,17 +49,12 @@ const Navbar = () => {
                                     <div className="hidden lg:flex">
                                         <HoverCard.Root>
                                             <HoverCard.Trigger>
-                                                <Button variant="soft" asChild>
-                                                    <a href="/profile">
-                                                        <Text
-                                                            size="3"
-                                                            weight="regular"
-                                                            className=""
-                                                        >
-                                                            {user.email?.charAt(0).toUpperCase()}
-                                                        </Text>
-                                                    </a>
-                                                </Button>
+                                                <a href="/profile">
+                                                    <Avatar
+                                                        size="2"
+                                                        fallback={user.email?.charAt(0).toUpperCase().toString() ?? "?"}
+                                                    />
+                                                </a>
                                             </HoverCard.Trigger>
 
                                             <HoverCard.Content>
@@ -97,7 +92,7 @@ const Navbar = () => {
                                     </div>
                                     <button
                                         onClick={() => setExpanded(!expanded)}
-                                        className="lg:hidden hover:bg-red-300 hover:bg-opacity-10 rounded"
+                                        className="lg:hidden"
                                     >
                                         {expanded? <X strokeWidth={1} size={18}/> : <Menu strokeWidth={1} size={18} />}
                                     </button>
@@ -128,7 +123,7 @@ const Navbar = () => {
                     </div>
                 </div>
             </div>
-            <div className={`w-full lg:hidden flex flex-col z-10 ${expanded == false ? "-translate-y-full" : ""} border-b border-b-foreground/3 transition-transform duration-300`}>
+            <div className={`w-full dark:bg-[#111114] bg-background absolute lg:hidden flex flex-col z-10 ${expanded == false ? "-translate-y-full" : ""} border-b border-b-foreground/3 transition-transform duration-300`}>
                 <ul className="flex flex-col text-2xl p-5 my-5 gap-3 font-bold">
                     <li>
                         <a href="/dashboard">Dashboard</a>
@@ -140,7 +135,7 @@ const Navbar = () => {
                         <a href="/friends">Friends</a>
                     </li>
                 </ul>
-                <div className={`flex flex-row w-full justify-between items-center p-5 mt-10 ${expanded == false ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}>
+                <div className={`flex flex-row w-full justify-between items-center p-5 my-8 ${expanded == false ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}>
                     <div className="flex flex-row items-center gap-3">
                         <Button variant="soft" asChild>
                             <a href="/profile">
@@ -168,8 +163,8 @@ const Navbar = () => {
                         </div>
                     </div>
                     <Button onClick={signOutAction} variant="surface">
-                        <LogOut size={18}/>
-                        <a>Logout</a>
+                        <LogOut size={15}/>
+                        <Text size="1"><a>Logout</a></Text>
                     </Button>
                 </div>
             </div>

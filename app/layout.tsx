@@ -41,10 +41,10 @@ export default function RootLayout({
         >
           <Theme appearance="inherit" accentColor="red" grayColor="slate" panelBackground="solid">
             <main className="flex flex-col items-center">
-              <div className="w-full flex flex-col items-center h-screen">
+              <div className="w-full flex flex-col items-center">
                 <AuthProvider>
                   <NavBar></NavBar>
-                    <div className="flex justify-center items-center absolute h-screen">
+                    <div className="flex max-w-6xl my-8 w-4/5">
                       {children}
                     </div>
                 </AuthProvider>
