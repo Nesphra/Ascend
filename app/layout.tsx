@@ -1,11 +1,13 @@
 import NavBar from "@/components/navBar"
 
-import { Inria_Sans } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { AuthProvider } from "./Hooks/authProvider";
 
+// UI
+import { Inria_Sans } from "next/font/google";
 import "@/app/globals.css";
 import "@radix-ui/themes/styles.css";
+import { Theme } from "@radix-ui/themes";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -13,8 +15,8 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Next.js and Supabase Starter Kit",
-  description: "The fastest way to build apps with Next.js and Supabase",
+  title: "Ascend",
+  description: "Climb your way up",
 };
 
 const inriaSans = Inria_Sans({
@@ -22,28 +24,33 @@ const inriaSans = Inria_Sans({
   subsets: ['latin'],
 });
 
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en" className={inriaSans.className} suppressHydrationWarning>
-      <body className="bg-background text-foreground">
+      <body className=" text-foreground">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
-          disableTransitionOnChange
         >
-          <main className="flex flex-col items-center">
-            <div className="w-full flex flex-col items-center h-screen">
-              <NavBar></NavBar>
-              <div className="flex justify-center items-center absolute h-screen">
-                <AuthProvider>{children}</AuthProvider>
+          <Theme appearance="inherit" accentColor="red" grayColor="slate" panelBackground="solid">
+            <main className="flex flex-col items-center">
+              <div className="w-full flex flex-col items-center h-screen">
+                <AuthProvider>
+                  <NavBar></NavBar>
+                    <div className="flex justify-center items-center absolute h-screen">
+                      {children}
+                    </div>
+                </AuthProvider>
               </div>
-            </div>
-          </main>
+            </main>
+          </Theme>
         </ThemeProvider>
       </body>
     </html>

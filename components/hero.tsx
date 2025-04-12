@@ -1,5 +1,7 @@
 import Image from 'next/image'
 import Phone from "@/components/img/Shot.png"
+import { Button } from "@radix-ui/themes";
+import Link from 'next/link';
 
 export default function Header() {
   return (
@@ -10,8 +12,10 @@ export default function Header() {
           <p className='opacity-80 font-light'>Analyze your habits. Compete with friends. Meet the new you.</p>
         </div>
         <div className='flex flex-col w-auto gap-1'>
-          <a href='/sign-up' className='text-[14px] font-semibold bg-red-500 rounded px-4 py-2 w-fit'>Unlock my potential →</a>
-          <p className='text-xs font-light opacity-50'>Free to use. Put your credit card away.</p>
+        <Button asChild type="button">
+          <Link href="/sign-up">Unlock my potential</Link> 
+        </Button>
+        <p className='text-xs font-light opacity-50'>Free to use. Put your credit card away.</p>
         </div>
       </div>
       <div className='hidden lg:block w-[300px] overflow-visible -translate-x-[50px]'>

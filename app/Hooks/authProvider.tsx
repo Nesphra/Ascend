@@ -22,6 +22,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // ✅ Inline async function to safely use await
     const initAuth = async () => {
       const supabase = createClient();
 
@@ -64,7 +65,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <AuthContext.Provider value={value}>
-      {loading ? "Loading..." : children}
+      {!loading && children}
     </AuthContext.Provider>
   );
 };
