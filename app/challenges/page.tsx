@@ -14,6 +14,8 @@ const challengeData = [
         participants: [
             { userID: "user1-ID", progress:15, working: true},
             { userID: "user2-ID", progress:10, working: false},
+            { userID: "user3-ID", progress:10, working: false},
+            { userID: "user3-ID", progress:10, working: false},
             { userID: "user3-ID", progress:10, working: false}
         ]
     },
@@ -125,7 +127,7 @@ const Challenges = () => {
                                     </div>
 
                                     <ScrollArea scrollbars="vertical" style={{ height: 170 }}>
-                                        <div className="flex flex-col gap-4 pr-2">
+                                        <div className="flex flex-col gap-4 px-3 my-3">
                                             {challenge.participants.map((user) => (
                                                 <div key={user.userID} className="flex flex-col gap-2">
                                                     <div className="flex justify-between items-center">
@@ -149,7 +151,7 @@ const Challenges = () => {
                                     </ScrollArea>
 
                                     <div className="flex flex-col gap-3">
-                                        <Separator size="4" />
+                                        <Separator size="4"/>
                                         <Button variant="outline">Launch Timer</Button>
                                     </div>
                                 </Card>
