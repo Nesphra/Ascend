@@ -44,7 +44,7 @@ export default function RootLayout({
             <main className="flex min-h-screen flex-col justify-between items-center w-full">
               <AuthProvider>
                 <NavBar></NavBar>
-                <div className="flex-grow flex justify-center items-center mt-[100px] w-full">
+                <div className="flex-grow flex justify-center mt-[100px] w-full">
                   <div className="w-4/5 max-w-6xl">
                     {children}
                   </div>
