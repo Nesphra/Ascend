@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 export default function Header() {
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-center w-screen h-screen absolute top-0 left-0 bg-background z-10">
       <div className='flex flex-col gap-6 max-w-[300px]'>
         <div className='flex flex-col gap-3'>
           <h1 className='text-5xl font-bold'>Level Up — Every Damn Day</h1>

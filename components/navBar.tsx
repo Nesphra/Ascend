@@ -21,7 +21,7 @@ const Navbar = () => {
     const liStyle = "opacity-60 hover:opacity-100 transition-opacity duration-200 font-regular"
 
     return (
-        <div className="w-full fixed top-0 z-10">
+        <div className="w-full fixed top-0 z-20">
             <div className="flex justify-center bg-background relative z-20 lg:border-b lg:border-b-foreground/3">
                 <div className="w-full flex justify-center h-[75px]">
                     <div className="flex lg:w-4/5 justify-between w-full items-cente m-5 lg:px-8">
@@ -121,7 +121,7 @@ const Navbar = () => {
                     </div>
                 </div>
             </div>
-            <div className={`w-full bg-background absolute lg:hidden flex flex-col z-10 ${expanded == false ? "-translate-y-full" : ""} border-b border-b-foreground/3 transition-transform duration-300`}>
+            <div className={`w-full bg-background absolute lg:hidden flex flex-col z-20 ${expanded == false ? "-translate-y-full" : ""} border-b border-b-foreground/3 transition-transform duration-300`}>
                 <ul className="flex flex-col text-2xl p-5 my-5 gap-3 font-bold">
                     <li>
                         <a href="/dashboard">Dashboard</a>

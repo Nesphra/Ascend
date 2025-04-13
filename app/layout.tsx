@@ -8,6 +8,7 @@ import { Inria_Sans } from "next/font/google";
 import "@/app/globals.css";
 import "@radix-ui/themes/styles.css";
 import { Theme } from "@radix-ui/themes";
+import Footer from "@/components/footer";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -40,16 +41,16 @@ export default function RootLayout({
           enableSystem
         >
           <Theme appearance="inherit" accentColor="red" grayColor="slate" panelBackground="solid">
-            <main className="flex flex-col items-center">
-              <div className="w-full flex flex-col items-center">
-                <AuthProvider>
-                  <NavBar></NavBar>
-                  <div className="flex max-w-6xl mt-[100px] w-4/5">
+            <main className="flex min-h-screen flex-col justify-between items-center w-full">
+              <AuthProvider>
+                <NavBar></NavBar>
+                <div className="flex-grow flex justify-center items-center mt-[100px] w-full">
+                  <div className="w-4/5 max-w-6xl">
                     {children}
                   </div>
-                  
-                </AuthProvider>
-              </div>
+                </div>
+                <Footer/>
+              </AuthProvider>
             </main>
           </Theme>
         </ThemeProvider>
