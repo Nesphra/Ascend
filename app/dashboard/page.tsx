@@ -31,13 +31,16 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="flex flex-col px-10 gap-6 w-full">
-      <div className="flex flex-col gap-3">
+    <div className="flex flex-col px-10 gap-6 w-full items-center">
+      <div className="flex flex-col gap-3 w-screen items-center p-6">
         <Text size="4" weight="bold">Progress Grid</Text>
         <ActivityCalendar maxLevel={4} data={dataTimeFrame} theme={minimalTheme} colorScheme={theme === "light" ? "light" : "dark"}/>
       </div>
-      <div>
-        <div className="flex flex-row w-full justify-between items-center">
+      <div className="flex w-full gap-6">
+        <div>
+          Here goes the miles climbed system.
+        </div>
+        <div className="flex-1 flex flex-row justify-between items-center">
           <Text size="4" weight="bold">Paths</Text>
           <Button variant="surface">
             <a>Create</a>

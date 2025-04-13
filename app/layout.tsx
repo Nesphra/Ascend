@@ -44,9 +44,10 @@ export default function RootLayout({
               <div className="w-full flex flex-col items-center">
                 <AuthProvider>
                   <NavBar></NavBar>
-                    <div className="flex max-w-6xl my-8 w-4/5">
-                      {children}
-                    </div>
+                  <div className="flex max-w-6xl mt-[100px] w-4/5">
+                    {children}
+                  </div>
+                  
                 </AuthProvider>
               </div>
             </main>
