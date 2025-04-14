@@ -23,6 +23,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/supabase-client.js", "app/supabase-client.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/supabase-client.js", "app/supabase-client.js", "app/Hooks/authProvider3.js", "app/Hooks/authProvider.js"],
   "exclude": ["node_modules"]
 }

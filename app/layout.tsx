@@ -1,8 +1,7 @@
 import NavBar from "@/components/navBar"
 
 import { ThemeProvider } from "next-themes";
-import { AuthProvider } from "./Hooks/authProvider";
-import AuthSync from "./auth/auth-sync";
+import { createClient } from "@/utils/supabase/server";
 
 // UI
 import { Inria_Sans } from "next/font/google";
@@ -27,36 +26,36 @@ const inriaSans = Inria_Sans({
 });
 
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
 
+  const supabase = await createClient();
+  const {data: {user}} = await supabase.auth.getUser();
+
   return (
     <html lang="en" className={inriaSans.className} suppressHydrationWarning>
-      <body className=" text-foreground">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-        >
-          <Theme appearance="inherit" accentColor="red" grayColor="slate" panelBackground="solid">
-            <main className="flex min-h-screen flex-col justify-between items-center w-full">
-              <AuthProvider>
-                <AuthSync />
-                <NavBar></NavBar>
-                <div className="flex-grow flex justify-center mt-[100px] w-full">
-                  <div className="w-4/5 max-w-6xl">
-                    {children}
-                  </div>
-                </div>
-                <Footer/>
-              </AuthProvider>
-            </main>
-          </Theme>
-        </ThemeProvider>
-      </body>
+        <body className=" text-foreground">
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+            >
+              <Theme appearance="inherit" accentColor="red" grayColor="slate" panelBackground="solid">
+                <main className="flex min-h-screen flex-col justify-between items-center w-full">
+                    <NavBar user={user}></NavBar>
+                    <div className="flex-grow flex justify-center mt-[100px] w-full">
+                      <div className="w-4/5 max-w-6xl">
+                        {children}
+                      </div>
+                    </div>
+                    <Footer/>
+                </main>
+              </Theme>
+            </ThemeProvider>
+        </body>
     </html>
   );
 }

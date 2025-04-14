@@ -1,20 +1,19 @@
 "use client";
 import { Menu, ArrowRight, LogOut, X } from "lucide-react";
 import Logo from "@/components/ui/logo";
+import { User } from "@supabase/supabase-js";
 
 import ThemeSwitcher from "./themeSwitch";
 import ThemePicker from "@/components/themePicker"
 
 import { signOutAction } from "@/app/actions";
-import { useAuth } from "@/app/Hooks/authProvider";
 
 import { useState } from "react";
 import { Button, Text, HoverCard, Separator, Avatar } from "@radix-ui/themes";
 import { useThemeContext } from "@radix-ui/themes";
 
 
-const Navbar = () => {
-    const {user} = useAuth();
+const Navbar = ({user}: {user: User | null}) => {
     const [expanded, setExpanded] = useState(false);
     const accentColor = useThemeContext().accentColor;
 
