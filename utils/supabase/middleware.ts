@@ -44,10 +44,10 @@ export const updateSession = async (request: NextRequest) => {
       return NextResponse.redirect(new URL("/sign-in", request.url));
     }
 
-    // // Redirect signed-in user from homepage to dashboard
-    // if (pathname === "/" && user) {
-    //   return NextResponse.redirect(new URL("/dashboard", request.url));
-    // }
+    // Redirect signed-in user from homepage to dashboard
+    if (pathname === "/" && user) {
+      return NextResponse.redirect(new URL("/dashboard", request.url));
+    }
 
     return response;
   } catch (e) {
