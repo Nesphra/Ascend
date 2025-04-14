@@ -9,50 +9,66 @@ const ProfileLookup = () => {
   const [results, setResults] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [loadingUsers, setLoadingUsers] = useState<Set<string>>(new Set());
-  const [sentRequests, setSentRequests] = useState<Set<string>>(new Set());
+  const [existingRelations, setExistingRelations] = useState<Record<string, boolean>>({});
+  const [userId, setUserId] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!query) {
-      setResults([]);
-      return;
-    }
-
     const supabase = createClient();
-    const delayDebounce = setTimeout(async () => {
-      setLoading(true);
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('profile_id, username, avatar_url')
-        .ilike('username', `%${query}%`);
+    const fetchUserAndRelations = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+      setUserId(user.id);
 
-      if (!error && data) {
-        setResults(data);
+      if (!query) {
+        setResults([]);
+        setExistingRelations({});
+        return;
       }
-      setLoading(false);
-    }, 300);
 
-    return () => clearTimeout(delayDebounce);
+      setLoading(true);
+
+      const [profilesRes, relationsRes] = await Promise.all([
+        supabase
+          .from('profiles')
+          .select('profile_id, username, avatar_url')
+          .ilike('username', `%${query}%`),
+        supabase
+          .from('relationships')
+          .select('receiver, status')
+          .eq('requester', user.id),
+      ]);
+
+      if (!profilesRes.error && profilesRes.data) {
+        const relationsMap: Record<string, boolean> = {};
+        relationsRes.data?.forEach((rel: any) => {
+          relationsMap[rel.receiver] = rel.status; // true or false
+        });
+
+        const filteredResults = profilesRes.data.filter((profile: any) =>
+          profile.profile_id !== user.id && relationsMap[profile.profile_id] !== true
+        );
+
+        setExistingRelations(relationsMap);
+        setResults(filteredResults);
+      }
+
+      setLoading(false);
+    };
+
+    const debounce = setTimeout(fetchUserAndRelations, 300);
+    return () => clearTimeout(debounce);
   }, [query]);
 
   const addFriend = async (receiverId: string) => {
+    if (!userId || existingRelations[receiverId] !== undefined) return;
+
     const supabase = createClient();
     setLoadingUsers(prev => new Set(prev).add(receiverId));
-
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    if (authError || !user) {
-      console.error("User not authenticated.");
-      setLoadingUsers(prev => {
-        const updated = new Set(prev);
-        updated.delete(receiverId);
-        return updated;
-      });
-      return;
-    }
 
     const { error } = await supabase
       .from('relationships')
       .insert({
-        requester: user.id,
+        requester: userId,
         receiver: receiverId,
         status: false,
       });
@@ -64,7 +80,7 @@ const ProfileLookup = () => {
     });
 
     if (!error) {
-      setSentRequests(prev => new Set(prev).add(receiverId));
+      setExistingRelations(prev => ({ ...prev, [receiverId]: false }));
     } else {
       console.error("Failed to send friend request:", error);
     }
@@ -84,7 +100,6 @@ const ProfileLookup = () => {
         </TextField.Root>
 
         {loading && <Text size="1">Loading...</Text>}
-
         {!loading && results.length === 0 && query && (
           <Text size="1" className="opacity-60">No users found</Text>
         )}
@@ -92,7 +107,7 @@ const ProfileLookup = () => {
         <div className="flex flex-col gap-2">
           {results.map((user) => {
             const isLoading = loadingUsers.has(user.profile_id);
-            const isSent = sentRequests.has(user.profile_id);
+            const relationStatus = existingRelations[user.profile_id];
 
             return (
               <div key={user.profile_id} className="flex justify-between items-center border px-3 py-2 rounded">
@@ -105,10 +120,11 @@ const ProfileLookup = () => {
                 <Button
                   size="1"
                   variant="outline"
-                  onClick={!isSent && !isLoading ? () => addFriend(user.profile_id) : undefined}
+                  onClick={!relationStatus && !isLoading ? () => addFriend(user.profile_id) : undefined}
+                  disabled={relationStatus !== undefined}
                   loading={isLoading}
                 >
-                  {isSent ? <Check size="18" /> : <UserRoundPlus size="18" />}
+                  {relationStatus === false ? <Check size="18" /> : <UserRoundPlus size="18" />}
                 </Button>
               </div>
             );

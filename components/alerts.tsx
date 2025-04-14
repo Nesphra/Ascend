@@ -1,13 +1,13 @@
 'use client';
 import { useEffect, useState } from "react";
 import { Bell, BellDot, Check, X } from "lucide-react";
-import { Button, HoverCard, Text, useThemeContext } from "@radix-ui/themes";
+import { Button, Heading, HoverCard, Dialog, Text, useThemeContext } from "@radix-ui/themes";
 import { createClient } from "@/utils/supabase/client";
 
-const Alerts = () => {
+const Alerts = ({ isMenu, collapseMenu }: { isMenu: boolean, collapseMenu?: () => void }) => {
     const [incomingRelations, setIncomingRelations] = useState<any[]>([]);
     const accentColor = useThemeContext().accentColor;
-
+    const [expandNotif, setExpandNotif] = useState(false);
     
     const fetchRelations = async () => {
         const supabase = createClient();
@@ -60,16 +60,45 @@ const Alerts = () => {
     const hasAlerts = incomingRelations.length > 0;
 
     return (
-        <HoverCard.Root>
-            <div className="flex justify-center items-center">
-                <HoverCard.Trigger>
+        <div>
+            <HoverCard.Root>
+                <div className="lg:flex hidden justify-center items-center">
+                    <HoverCard.Trigger>
+                        {hasAlerts ? (
+                            <button className="p-2"><BellDot size={18} color={accentColor} strokeWidth={3} /></button>
+                        ) : (
+                            <button className="p-2"><Bell size={18} strokeWidth={1} /></button>
+                        )}
+                    </HoverCard.Trigger>
+                    <HoverCard.Content>
+                        {!hasAlerts ? (
+                            <Text size="1" className="opacity-50">You have no notifications.</Text>
+                        ) : (
+                            incomingRelations.map((request: any) => (
+                                <div key={request.relation_id} className="flex flex-row w-full justify-between items-center gap-2">
+                                    <Text size="1">
+                                        Friend request from: {request.profiles?.username ?? request.requester}
+                                    </Text>
+                                    <div className="flex gap-1">
+                                        <Button size="1" onClick={() => acceptRequest(request.relation_id)}><Check size={11} /></Button>
+                                        <Button size="1" onClick={() => denyRequest(request.relation_id)}><X size={11} /></Button>
+                                    </div>
+                                </div>
+                            ))
+                        )}
+                    </HoverCard.Content>
+                </div>
+            </HoverCard.Root>
+            <Dialog.Root>
+                <Dialog.Trigger>
                     {hasAlerts ? (
                         <button className="p-2"><BellDot size={18} color={accentColor} strokeWidth={3} /></button>
                     ) : (
-                        <button className="p-2"><Bell size={18} strokeWidth={1} /></button>
+                        <button className="p-2"><Bell size={18} strokeWidth={1}/></button>
                     )}
-                </HoverCard.Trigger>
-                <HoverCard.Content>
+                </Dialog.Trigger>
+                <Dialog.Content>
+                    <Dialog.Title>Notifications</Dialog.Title>
                     {!hasAlerts ? (
                         <Text size="1" className="opacity-50">You have no notifications.</Text>
                     ) : (
@@ -85,9 +114,9 @@ const Alerts = () => {
                             </div>
                         ))
                     )}
-                </HoverCard.Content>
-            </div>
-        </HoverCard.Root>
+                </Dialog.Content>
+            </Dialog.Root>
+        </div>
     );
 };
 

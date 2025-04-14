@@ -51,7 +51,10 @@ const Navbar = ({user, profile}: {user: User | null, profile: any}) => {
                                             <ThemeSwitcher />
                                         </div>
                                         <div className="flex hover:bg-gray-600 hover:bg-opacity-20 rounded justify-center items-center">
-                                            <Alerts/>
+                                            <Alerts 
+                                                isMenu={expanded} 
+                                                collapseMenu={() => setExpanded(false)} 
+                                            />
                                         </div>
                                     </div>
                                     <div className="hidden lg:flex">
