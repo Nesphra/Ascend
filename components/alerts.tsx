@@ -4,10 +4,9 @@ import { Bell, BellDot, Check, X } from "lucide-react";
 import { Button, Heading, HoverCard, Dialog, Text, useThemeContext } from "@radix-ui/themes";
 import { createClient } from "@/utils/supabase/client";
 
-const Alerts = ({ isMenu, collapseMenu }: { isMenu: boolean, collapseMenu?: () => void }) => {
+const Alerts = () => {
     const [incomingRelations, setIncomingRelations] = useState<any[]>([]);
     const accentColor = useThemeContext().accentColor;
-    const [expandNotif, setExpandNotif] = useState(false);
     
     const fetchRelations = async () => {
         const supabase = createClient();

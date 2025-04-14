@@ -2,7 +2,7 @@
 "use client";
 import { Menu, ArrowRight, LogOut, X, Bell } from "lucide-react";
 import Logo from "@/components/ui/logo";
-import { SupabaseClient, User } from "@supabase/supabase-js";
+import { User } from "@supabase/supabase-js";
 
 import ThemeSwitcher from "./themeSwitch";
 import ThemePicker from "@/components/themePicker"
@@ -51,10 +51,7 @@ const Navbar = ({user, profile}: {user: User | null, profile: any}) => {
                                             <ThemeSwitcher />
                                         </div>
                                         <div className="flex hover:bg-gray-600 hover:bg-opacity-20 rounded justify-center items-center">
-                                            <Alerts 
-                                                isMenu={expanded} 
-                                                collapseMenu={() => setExpanded(false)} 
-                                            />
+                                            <Alerts/>
                                         </div>
                                     </div>
                                     <div className="hidden lg:flex">
@@ -152,22 +149,19 @@ const Navbar = ({user, profile}: {user: User | null, profile: any}) => {
                 </ul>
                 <div className={`flex flex-row w-full justify-between items-center p-5 my-8 ${expanded == false ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}>
                     <div className="flex flex-row items-center gap-3">
-                        <Button variant="soft" asChild>
-                            <a href="/profile">
-                                <Text
-                                    size="5"
-                                    weight="regular"
-                                >
-                                    {user?.email?.charAt(0).toUpperCase()}
-                                </Text>
-                            </a>
-                        </Button>
+                        <a href="/profile">
+                            <Avatar
+                                size="3"
+                                src={profile.avatar_url}
+                                fallback={profile.username?.charAt(0).toUpperCase().toString() ?? "?"}
+                            />
+                        </a>
                         <div className="flex flex-col">
                             <Text
                                 size="2"
                                 weight="regular"
                             >
-                                {user?.email}
+                                {profile.username}
                             </Text>
                             <Text
                                 size="1"
