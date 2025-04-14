@@ -1,6 +1,5 @@
 'use client';
 
-import { useAuth } from "@/app/Hooks/authProvider";
 import { ActivityCalendar, ThemeInput } from 'react-activity-calendar'
 import { useTheme } from "next-themes";
 
@@ -22,7 +21,6 @@ const dataTimeFrame = [
 ]
 
 export default function DashboardPage() {
-  // const { user } = useAuth();
   const { theme } = useTheme();
   
   const minimalTheme: ThemeInput = {

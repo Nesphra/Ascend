@@ -1,24 +1,28 @@
+'use client'
 import Image from 'next/image'
 import Phone from "@/components/img/Shot.png"
 import { Button } from "@radix-ui/themes";
 import Link from 'next/link';
 import { SparklesCore } from './sparkles';
+import { useTheme } from "next-themes";
 
 export default function Header() {
+  const { theme } = useTheme()
+
   return (
     <div className="flex items-center justify-center w-screen h-screen absolute top-0 left-0 bg-background z-10">
       <div className="absolute h-screen">
         <SparklesCore
           id="tsparticlesfullpage"
           background="transparent"
-          minSize={0.8}
-          maxSize={1.6}
+          minSize={1}
+          maxSize={4}
           particleDensity={20}
           className="w-full h-full"
-          particleColor="#FFFFFF"
+          particleColor={theme === "light" ? "#FF0000" : "#FFFFFF"}
         />
       </div>
-      <div>
+      <div className='flex items-center justify-center'>
         <div className='flex flex-col gap-6 max-w-[300px] relative z-20'>
           <div className='flex flex-col gap-3'>
             <h1 className='text-5xl font-bold'>Level Up — Every Damn Day</h1>

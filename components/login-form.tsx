@@ -1,13 +1,27 @@
+'use client';
+
 import { signInAction } from "@/app/actions";
-import { FormMessage, Message } from "@/components/form-message";
+import { useAuth } from "@/app/Hooks/authProvider";
+import { useEffect } from "react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@radix-ui/themes";
 import Link from "next/link";
+import { FormMessage, Message } from "@/components/form-message";
 
-export default async function Login(props: { searchParams: Promise<Message> }) {
-  const searchParams = await props.searchParams;
-  
+export default function LoginForm({ searchParams }: { searchParams: Message }) {
+  const { user } = useAuth();
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      router.replace("/dashboard");
+    }
+  }, [user]);
+
   return (
     <form className="flex-1 flex flex-col min-w-64">
       <h1 className="text-2xl font-medium">Sign in</h1>
@@ -35,9 +49,7 @@ export default async function Login(props: { searchParams: Promise<Message> }) {
           placeholder="Your password"
           required
         />
-        <Button formAction={signInAction}>
-          Sign in
-        </Button>
+        <Button formAction={signInAction}>Sign in</Button>
         <FormMessage message={searchParams} />
       </div>
     </form>

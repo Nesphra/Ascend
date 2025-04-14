@@ -14,16 +14,16 @@ import { useThemeContext } from "@radix-ui/themes";
 
 
 const Navbar = () => {
-    const { user } = useAuth();
+    const {user} = useAuth();
     const [expanded, setExpanded] = useState(false);
     const accentColor = useThemeContext().accentColor;
 
     const liStyle = "opacity-60 hover:opacity-100 transition-opacity duration-200 font-regular"
 
     return (
-        <div className="w-full fixed top-0 z-50 max-w-[1800px]">
+        <div className="w-full fixed top-0 z-50">
             <div className="flex justify-center bg-background relative z-50 lg:border-b lg:border-b-foreground/3">
-                <div className="w-full flex justify-center h-[75px]">
+                <div className="w-full flex justify-center h-[75px] max-w-[1800px]">
                     <div className="flex lg:w-4/5 justify-between w-full items-cente m-5 lg:px-8">
                         <a href="/" className="flex items-center">
                             <Logo />
