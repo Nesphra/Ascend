@@ -12,11 +12,11 @@ const challengeData = [
         created_at : "2024-06-01",
         goalDate : "2024-07-01",
         participants: [
-            { userID: "user1-ID", progress:15, working: true},
+            { userID: "user1-ID", progress:15, working: true },
             { userID: "user2-ID", progress:10, working: false},
             { userID: "user3-ID", progress:10, working: false},
-            { userID: "user3-ID", progress:10, working: false},
-            { userID: "user3-ID", progress:10, working: false}
+            { userID: "user4-ID", progress:10, working: false},
+            { userID: "user5-ID", progress:10, working: false}
         ]
     },
     {

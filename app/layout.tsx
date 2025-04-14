@@ -1,4 +1,6 @@
+// root app layout
 import NavBar from "@/components/navBar"
+import Footer from "@/components/footer";
 
 import { ThemeProvider } from "next-themes";
 import { createClient } from "@/utils/supabase/server";
@@ -8,7 +10,6 @@ import { Inria_Sans } from "next/font/google";
 import "@/app/globals.css";
 import "@radix-ui/themes/styles.css";
 import { Theme } from "@radix-ui/themes";
-import Footer from "@/components/footer";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -35,6 +36,14 @@ export default async function RootLayout({
   const supabase = await createClient();
   const {data: {user}} = await supabase.auth.getUser();
 
+  const { data: profile } = await supabase
+  .from('profiles')
+  .select()
+  .eq('profile_id', user?.id)
+  .single()
+
+  console.log(user?.id)
+
   return (
     <html lang="en" className={inriaSans.className} suppressHydrationWarning>
         <body className=" text-foreground">
@@ -45,7 +54,7 @@ export default async function RootLayout({
             >
               <Theme appearance="inherit" accentColor="red" grayColor="slate" panelBackground="solid">
                 <main className="flex min-h-screen flex-col justify-between items-center w-full">
-                    <NavBar user={user}></NavBar>
+                    <NavBar user={user} profile={profile}></NavBar>
                     <div className="flex-grow flex justify-center mt-[100px] w-full">
                       <div className="w-4/5 max-w-6xl">
                         {children}

@@ -16,14 +16,13 @@ const themeSwitch = () => {
     }
 
     const ICON_SIZE = 18;
-    const styling = "flex hover:bg-gray-600 hover:bg-opacity-20 rounded justify-center items-center p-2";
 
     return (
-        <div>
+        <div className="flex justify-center items-center">
             {theme === "light" ? (
-                <button onClick={() => setTheme("dark")} className={styling}><Moon strokeWidth={1} size={ICON_SIZE}/></button>
+                <button onClick={() => setTheme("dark")} className="p-2"><Moon strokeWidth={1} size={ICON_SIZE}/></button>
             ) : (
-                <button onClick={() => setTheme("light")} className={styling}><Sun strokeWidth={1} size={ICON_SIZE}/></button>
+                <button onClick={() => setTheme("light")} className="p-2"><Sun strokeWidth={1} size={ICON_SIZE}/></button>
             )}
         </div>
     );

@@ -1,10 +1,12 @@
+// navbar component
 "use client";
-import { Menu, ArrowRight, LogOut, X } from "lucide-react";
+import { Menu, ArrowRight, LogOut, X, Bell } from "lucide-react";
 import Logo from "@/components/ui/logo";
-import { User } from "@supabase/supabase-js";
+import { SupabaseClient, User } from "@supabase/supabase-js";
 
 import ThemeSwitcher from "./themeSwitch";
 import ThemePicker from "@/components/themePicker"
+import Alerts from "@/components/alerts";
 
 import { signOutAction } from "@/app/actions";
 
@@ -12,8 +14,7 @@ import { useState } from "react";
 import { Button, Text, HoverCard, Separator, Avatar } from "@radix-ui/themes";
 import { useThemeContext } from "@radix-ui/themes";
 
-
-const Navbar = ({user}: {user: User | null}) => {
+const Navbar = ({user, profile}: {user: User | null, profile: any}) => {
     const [expanded, setExpanded] = useState(false);
     const accentColor = useThemeContext().accentColor;
 
@@ -36,20 +37,31 @@ const Navbar = ({user}: {user: User | null}) => {
                                             <a href="/dashboard">Dashboard</a>
                                         </li>
                                         <li className={liStyle}>
+                                            <a href="/challenges">Reads</a>
+                                        </li>
+                                        <li className={liStyle}>
                                             <a href="/challenges">Challenges</a>
                                         </li>
                                         <li className={liStyle}>
                                             <a href="/friends">Friends</a>
                                         </li>
                                     </ul>
-                                    <ThemeSwitcher />
+                                    <div className="flex items-center justify-center">
+                                        <div className="flex hover:bg-gray-600 hover:bg-opacity-20 rounded justify-center items-center">
+                                            <ThemeSwitcher />
+                                        </div>
+                                        <div className="flex hover:bg-gray-600 hover:bg-opacity-20 rounded justify-center items-center">
+                                            <Alerts/>
+                                        </div>
+                                    </div>
                                     <div className="hidden lg:flex">
                                         <HoverCard.Root>
                                             <HoverCard.Trigger>
                                                 <a href="/profile">
                                                     <Avatar
                                                         size="2"
-                                                        fallback={user.email?.charAt(0).toUpperCase().toString() ?? "?"}
+                                                        src={profile.avatar_url}
+                                                        fallback={profile.username?.charAt(0).toUpperCase().toString() ?? "?"}
                                                     />
                                                 </a>
                                             </HoverCard.Trigger>
@@ -64,7 +76,7 @@ const Navbar = ({user}: {user: User | null}) => {
                                                         Logged in as
                                                     </Text>
                                                     <Text size="2" className="mb-2">
-                                                        {user.email}
+                                                        {profile.username}
                                                     </Text>
                                                     <Button onClick={signOutAction} variant="outline" asChild>
                                                         <a>Logout</a>

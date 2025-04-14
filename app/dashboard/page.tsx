@@ -1,11 +1,12 @@
+// dashboard page
 'use client';
 
 import { ActivityCalendar, ThemeInput } from 'react-activity-calendar'
 import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 import { Button, Text } from "@radix-ui/themes";
 import { Plus } from "lucide-react";
-
 
 const dataTimeFrame = [
   {
@@ -22,6 +23,13 @@ const dataTimeFrame = [
 
 export default function DashboardPage() {
   const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
   
   const minimalTheme: ThemeInput = {
     light: ['hsl(0, 0%, 92%)', 'crimson'],
@@ -31,7 +39,6 @@ export default function DashboardPage() {
   return (
     <div className="flex flex-col px-10 gap-6 w-full items-center">
       <div className="flex flex-col gap-3 w-screen items-center p-6">
-        <Text size="4" weight="bold">Progress Grid</Text>
         <ActivityCalendar maxLevel={4} data={dataTimeFrame} theme={minimalTheme} colorScheme={theme === "light" ? "light" : "dark"}/>
       </div>
       <div className="flex w-full gap-6">
