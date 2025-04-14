@@ -2,6 +2,7 @@ import NavBar from "@/components/navBar"
 
 import { ThemeProvider } from "next-themes";
 import { AuthProvider } from "./Hooks/authProvider";
+import AuthSync from "./auth/auth-sync";
 
 // UI
 import { Inria_Sans } from "next/font/google";
@@ -43,6 +44,7 @@ export default function RootLayout({
           <Theme appearance="inherit" accentColor="red" grayColor="slate" panelBackground="solid">
             <main className="flex min-h-screen flex-col justify-between items-center w-full">
               <AuthProvider>
+                <AuthSync />
                 <NavBar></NavBar>
                 <div className="flex-grow flex justify-center mt-[100px] w-full">
                   <div className="w-4/5 max-w-6xl">

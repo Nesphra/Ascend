@@ -1,66 +1,78 @@
-'use client';
+"use client";
 
 import { Session, User } from '@supabase/supabase-js';
-import { useContext, useState, useEffect, createContext } from 'react';
+import { useContext, useState, useEffect, createContext, ReactNode } from 'react';
 import { createClient } from '@/utils/supabase/client';
 
 type AuthContextType = {
   session: Session | null;
   user: User | null;
-  signOut: () => void;
+  signOut: () => Promise<void>;
+  loading: boolean;
+  refreshSession: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType>({
   session: null,
   user: null,
-  signOut: () => {},
+  signOut: async () => {},
+  loading: true,
+  refreshSession: async () => {},
 });
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [session, setSession] = useState<Session | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    // ✅ Inline async function to safely use await
-    const initAuth = async () => {
-      const supabase = createClient();
+  // Function to manually refresh the session
+  const refreshSession = async () => {
+    const supabase = createClient();
+    const { data, error } = await supabase.auth.getSession();
+    if (!error) {
+      setSession(data.session);
+      setUser(data.session?.user ?? null);
+    }
+  };
 
+  useEffect(() => {
+    const supabase = createClient();
+
+    // Fetch the current session on mount
+    const initializeAuth = async () => {
       const { data, error } = await supabase.auth.getSession();
       if (!error) {
         setSession(data.session);
         setUser(data.session?.user ?? null);
       }
-
-      // Listen to auth changes (e.g., login/logout)
-      const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
-        setSession(session);
-        setUser(session?.user ?? null);
-      });
-
-      setLoading(false); // ✅ Only after session is initially fetched
-
-      // ✅ Unsubscribe on cleanup
-      return () => {
-        listener?.subscription.unsubscribe();
-      };
+      setLoading(false);
     };
 
-    // Call the inline async function
-    const cleanupPromise = initAuth();
+    initializeAuth();
 
+    // Set up auth state change listener
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+      setUser(session?.user ?? null);
+    });
+
+    // Clean up the listener on component unmount
     return () => {
-      cleanupPromise.then((cleanup) => cleanup?.());
+      listener?.subscription.unsubscribe();
     };
   }, []);
+
+  const signOut = async () => {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+  };
 
   const value: AuthContextType = {
     session,
     user,
-    signOut: () => {
-      const supabase = createClient();
-      supabase.auth.signOut();
-    },
+    signOut,
+    loading,
+    refreshSession,
   };
 
   return (

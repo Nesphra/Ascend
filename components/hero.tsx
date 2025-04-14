@@ -16,7 +16,7 @@ export default function Header() {
           id="tsparticlesfullpage"
           background="transparent"
           minSize={1}
-          maxSize={4}
+          maxSize={3}
           particleDensity={20}
           className="w-full h-full"
           particleColor={theme === "light" ? "#FF0000" : "#FFFFFF"}
