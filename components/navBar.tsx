@@ -146,6 +146,9 @@ const Navbar = ({user, profile}: {user: User | null, profile: any}) => {
                     <li>
                         <a href="/friends">Friends</a>
                     </li>
+                    <li>
+                        <a href="/friends">Reads</a>
+                    </li>
                 </ul>
                 <div className={`flex flex-row w-full justify-between items-center p-5 my-8 ${expanded == false ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}>
                     <div className="flex flex-row items-center gap-3">

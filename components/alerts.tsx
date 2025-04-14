@@ -90,7 +90,7 @@ const Alerts = ({ isMenu, collapseMenu }: { isMenu: boolean, collapseMenu?: () =
                 </div>
             </HoverCard.Root>
             <Dialog.Root>
-                <Dialog.Trigger>
+                <Dialog.Trigger className="lg:hidden">
                     {hasAlerts ? (
                         <button className="p-2"><BellDot size={18} color={accentColor} strokeWidth={3} /></button>
                     ) : (
