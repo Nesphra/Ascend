@@ -105,7 +105,7 @@ const Navbar = ({user}: {user: User | null}) => {
                                             Sign Up
                                         </Text>
                                     </a>
-                                    <Button variant="surface">
+                                    <Button variant="surface" asChild>
                                         <a
                                             href="/sign-in"
                                             className="flex items-center gap-1 justify-center"
