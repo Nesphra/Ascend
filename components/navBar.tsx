@@ -60,8 +60,8 @@ const Navbar = ({user, profile}: {user: User | null, profile: any}) => {
                                                 <a href="/profile">
                                                     <Avatar
                                                         size="2"
-                                                        src={profile.avatar_url}
-                                                        fallback={profile.username?.charAt(0).toUpperCase().toString() ?? "?"}
+                                                        src={profile?.avatar_url}
+                                                        fallback={profile?.username.charAt(0).toUpperCase().toString() ?? "?"}
                                                     />
                                                 </a>
                                             </HoverCard.Trigger>
@@ -76,7 +76,7 @@ const Navbar = ({user, profile}: {user: User | null, profile: any}) => {
                                                         Logged in as
                                                     </Text>
                                                     <Text size="2" className="mb-2">
-                                                        {profile.username}
+                                                        {profile?.username}
                                                     </Text>
                                                     <Button onClick={signOutAction} variant="outline" asChild>
                                                         <a>Logout</a>
@@ -152,8 +152,8 @@ const Navbar = ({user, profile}: {user: User | null, profile: any}) => {
                         <a href="/profile">
                             <Avatar
                                 size="3"
-                                src={profile.avatar_url}
-                                fallback={profile.username?.charAt(0).toUpperCase().toString() ?? "?"}
+                                src={profile?.avatar_url}
+                                fallback={profile?.username?.charAt(0).toUpperCase().toString() ?? "?"}
                             />
                         </a>
                         <div className="flex flex-col">
@@ -161,7 +161,7 @@ const Navbar = ({user, profile}: {user: User | null, profile: any}) => {
                                 size="2"
                                 weight="regular"
                             >
-                                {profile.username}
+                                {profile?.username}
                             </Text>
                             <Text
                                 size="1"
