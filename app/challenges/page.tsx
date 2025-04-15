@@ -179,7 +179,9 @@ export default function Challenges() {
 
                 <ScrollArea scrollbars="vertical" style={{ height: 170 }}>
                   <div className="flex flex-col gap-4 px-3 my-3">
-                    {challenge.participants.map((user: any) => (
+                    {challenge.participants
+                      .sort((a: any, b: any) => b.progress - a.progress)
+                      .map((user: any) => (
                       <div key={user.profile_id} className="flex flex-col gap-2">
                         <div className="flex justify-between items-center">
                           <div className="flex gap-2 items-center">
@@ -238,6 +240,8 @@ export default function Challenges() {
                         onSubmitTime={(seconds) =>
                           handleTimeSubmit(challenge.challenge_id, seconds)
                         }
+                        currentProgress={challenge.participants.find((p: any) => p.profile_id === userId)?.progress || 0}
+                        goalTime={challenge.goal_time}
                       />
                     </Dialog.Content>
                   </Dialog.Root>
