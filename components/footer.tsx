@@ -8,7 +8,7 @@ const Footer = () => {
     <footer className="max-w-6xl w-full border-t border-foreground/10 flex flex-col md:flex-row justify-between items-center opacity-60 py-5 px-5">
         {/* Left Section */}
         <div className="flex flex-col w-full">
-          <div className="flex items-center gap-3">
+          <div className="flex justify-center md:justify-start items-center gap-3">
             <div className="flex flex-row items-center">
                 <Logo/>
                 <Text weight="bold">Ascend</Text>
@@ -24,7 +24,7 @@ const Footer = () => {
         </div>
 
         {/* Right Section */}
-        <div className="flex flex-col items-start gap-1 text-xs whitespace-nowrap">
+        <div className="flex flex-col text-center md:text-left gap-1 text-xs whitespace-nowrap">
           <span>Facing issues? <Link href="/" weight="bold">Get help</Link></span>
           <span>Suggestions for improvement? <Link href="/" weight="bold">Share feedback</Link></span>
           <div className="text-xs opacity-60 md:hidden">

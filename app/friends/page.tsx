@@ -1,3 +1,4 @@
+//friends page
 'use client';
 import { useState, useEffect } from 'react';
 import { TextField, Button, Text, Avatar } from '@radix-ui/themes';

@@ -1,6 +1,6 @@
 // navbar component
 "use client";
-import { Menu, ArrowRight, LogOut, X, Bell } from "lucide-react";
+import { Menu, ArrowRight, LogOut, X } from "lucide-react";
 import Logo from "@/components/ui/logo";
 import { User } from "@supabase/supabase-js";
 
@@ -10,13 +10,26 @@ import Alerts from "@/components/alerts";
 
 import { signOutAction } from "@/app/actions";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Text, HoverCard, Separator, Avatar } from "@radix-ui/themes";
 import { useThemeContext } from "@radix-ui/themes";
+import { useTheme } from 'next-themes'; // <- import this
+import { useMantineColorScheme } from "@mantine/core";
 
 const Navbar = ({user, profile}: {user: User | null, profile: any}) => {
     const [expanded, setExpanded] = useState(false);
     const accentColor = useThemeContext().accentColor;
+
+    const { resolvedTheme } = useTheme(); // 'light' | 'dark' | undefined
+    const { setColorScheme } = useMantineColorScheme();
+
+    // sync on theme change
+    useEffect(() => {
+    if (resolvedTheme) {
+        setColorScheme(resolvedTheme as any);
+    }
+    }, [resolvedTheme, setColorScheme]);
+
 
     const liStyle = "opacity-60 hover:opacity-100 transition-opacity duration-200 font-regular"
 

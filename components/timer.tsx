@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useStopwatch } from "react-timer-hook";
 import { Tabs } from "radix-ui";
 import { Button, Progress, Text } from "@radix-ui/themes";
-import { Check, X } from "lucide-react";
+import { X } from "lucide-react";
 import { useThemeContext } from "@radix-ui/themes";
 
 interface TimerProps {
@@ -133,7 +133,10 @@ export default function Timer({ onSubmitTime, currentProgress, goalTime }: Timer
           </Tabs.Trigger>
         </Tabs.List>
         <Tabs.Content value="stopwatch" className="flex flex-col justify-center items-center">
-          <div className="text-8xl font-bold my-5 whitespace-nowrap flex items-center justify-center">
+          <div 
+            className="text-8xl font-bold my-5 whitespace-nowrap flex items-center justify-center"
+            data-timer-seconds={totalSeconds}
+          >
             {hours > 0 ? (
               <span>
                 {days * 24 + hours}:{minutes}:{formattedSeconds}
@@ -147,19 +150,14 @@ export default function Timer({ onSubmitTime, currentProgress, goalTime }: Timer
             )}
           </div>
           <div className="flex justify-center items-center gap-6">
-            {!isRunning && seconds > 0 && (
-              <Button variant="soft" size="2" onClick={handleReset}>
-                <X className="w-4 h-4" />
-              </Button>
-            )}
             <Button size="3" onClick={() => (isRunning ? pause() : start())} asChild>
               {isRunning ? <p>pause</p> : <p>start</p>}
             </Button>
-            {!isRunning && seconds > 0 && (
-              <Button variant="soft" size="2" onClick={handleSubmit}>
-                <Check className="w-4 h-4" />
-              </Button>
-            )}
+            <div className={`absolute translate-x-16 flex items-center justify-center ${totalSeconds > 0 ? 'opacity-50 hover:opacity-100' : 'opacity-0'} transition duration-200 ease-in-out`}>
+              <button onClick={handleReset} className="">
+                <X size="25" />
+              </button>
+            </div>
           </div>
         </Tabs.Content>
         <Tabs.Content value="timer">timer</Tabs.Content>

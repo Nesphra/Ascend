@@ -4,12 +4,16 @@ import Footer from "@/components/footer";
 
 import { ThemeProvider } from "next-themes";
 import { createClient } from "@/utils/supabase/server";
+import { MantineProvider } from "@mantine/core";
+import { Theme } from "@radix-ui/themes";
 
-// UI
 import { Inria_Sans } from "next/font/google";
 import "@/app/globals.css";
 import "@radix-ui/themes/styles.css";
-import { Theme } from "@radix-ui/themes";
+import '@mantine/core/styles.css';
+import '@mantine/dates/styles.css';
+
+
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -53,15 +57,17 @@ export default async function RootLayout({
               enableSystem
             >
               <Theme appearance="inherit" accentColor="red" grayColor="slate" panelBackground="solid">
-                <main className="flex min-h-screen flex-col justify-between items-center w-full">
-                    <NavBar user={user} profile={profile}></NavBar>
-                    <div className="flex-grow flex justify-center mt-[100px] w-full">
-                      <div className="w-4/5 max-w-6xl">
-                        {children}
+                <MantineProvider>
+                  <main className="flex min-h-screen flex-col justify-between items-center w-full">
+                      <NavBar user={user} profile={profile}></NavBar>
+                      <div className="flex-grow flex justify-center mt-[100px] w-full">
+                        <div className="w-4/5 max-w-6xl">
+                          {children}
+                        </div>
                       </div>
-                    </div>
-                    <Footer/>
-                </main>
+                      <Footer/>
+                  </main>
+                </MantineProvider>
               </Theme>
             </ThemeProvider>
         </body>
