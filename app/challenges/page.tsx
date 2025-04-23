@@ -13,7 +13,6 @@ import {
   Button,
   ScrollArea,
   Tabs,
-  IconButton,
   Skeleton,
 } from '@radix-ui/themes';
 import { useEffect, useState } from 'react';
@@ -37,59 +36,36 @@ export default function Challenges() {
       if (!user) return;
       setUserId(user.id);
 
-      const { data: participantsData, error: participantsError } = await supabase
+      const { data, error } = await supabase
         .from('participants')
         .select(`
-          participant_id,
           progress,
           challenge_id,
-          user_id
-        `)
-        .eq('accepted', true);
+          challenges ( challenge_id, title, goal_time, created_at, goal_date, community ),
+          profiles: user_id ( username, avatar_url, profile_id )
+        `);
 
-      if (participantsError) {
-        console.log(participantsError);
+      if (error) {
+        console.log(error);
         return;
       }
 
-      // Get unique challenge IDs
-      const challengeIds = Array.from(new Set(participantsData.map(p => p.challenge_id)));
-
-      // Fetch challenge details
-      const { data: challengesData } = await supabase
-        .from('challenges')
-        .select('*')
-        .in('challenge_id', challengeIds);
-
-      // Fetch user profiles for all participants
-      const userIds = Array.from(new Set(participantsData.map(p => p.user_id)));
-      const { data: profilesData } = await supabase
-        .from('profiles')
-        .select('profile_id, username, avatar_url')
-        .in('profile_id', userIds);
-
-      // Group the data
       const grouped: Record<string, any> = {};
-      challengesData?.forEach((challenge) => {
-        const challengeParticipants = participantsData
-          .filter(p => p.challenge_id === challenge.challenge_id)
-          .map(p => ({
-            ...profilesData?.find(profile => profile.profile_id === p.user_id),
-            progress: p.progress
-          }));
-
-        grouped[challenge.challenge_id] = {
-          ...challenge,
-          participants: challengeParticipants,
-        };
+      data.forEach((row: any) => {
+        const challengeId = row.challenge_id;
+        if (!grouped[challengeId]) {
+          grouped[challengeId] = {
+            ...row.challenges,
+            participants: [],
+          };
+        }
+        grouped[challengeId].participants.push({
+          ...row.profiles,
+          progress: row.progress,
+        });
       });
 
-      // Only show challenges where the user is a participant
-      const userChallenges = Object.values(grouped).filter((challenge: any) =>
-        challenge.participants.some((p: any) => p.profile_id === user.id)
-      );
-
-      setChallenges(userChallenges);
+      setChallenges(Object.values(grouped));
       setLoading(false);
     };
 
